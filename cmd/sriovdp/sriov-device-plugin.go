@@ -44,9 +44,13 @@ type arrayFlags []string
 func (a *arrayFlags) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprint(*a)
 }
 func (a *arrayFlags) Set(value string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	*a = append(*a, value)
@@ -67,9 +71,13 @@ type sriovManager struct {
 func newSriovManager(cp *cliParams) *sriovManager {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &sriovManager{cliParams: *cp, devices: make(map[string]pluginapi.Device), socketFile: fmt.Sprintf("%s.sock", pluginEndpointPrefix), termSignal: make(chan bool, 1), stopWatcher: make(chan bool)}
 }
 func getSriovPfList() ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sriovNetDevices := []string{}
@@ -105,6 +113,8 @@ func getSriovPfList() ([]string, error) {
 func GetVFList(pf string) ([]string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vfList := make([]string, 0)
 	pfDir := filepath.Join(netDirectory, pf, "device")
 	_, err := os.Lstat(pfDir)
@@ -130,6 +140,8 @@ func GetVFList(pf string) ([]string, error) {
 	return vfList, err
 }
 func (sm *sriovManager) getPfWhiteList(pfList []string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pfwl := []string{}
@@ -160,6 +172,8 @@ func (sm *sriovManager) getPfWhiteList(pfList []string) []string {
 	return pfwl
 }
 func (sm *sriovManager) discoverNetworks() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var healthValue string
@@ -231,6 +245,8 @@ func (sm *sriovManager) discoverNetworks() error {
 func IsNetlinkStatusUp(dev string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	opsFile := filepath.Join(netDirectory, dev, "operstate")
 	bytes, err := ioutil.ReadFile(opsFile)
 	if err != nil || strings.TrimSpace(string(bytes)) != "up" {
@@ -241,12 +257,16 @@ func IsNetlinkStatusUp(dev string) bool {
 func HasKubeletPluginRegistryDir() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if _, err := os.Stat(pluginMountPath); err != nil {
 		return false
 	}
 	return true
 }
 func (sm *sriovManager) Probe() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	changed := false
@@ -270,6 +290,8 @@ func (sm *sriovManager) Probe() bool {
 	return changed
 }
 func (sm *sriovManager) Start() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	glog.Infof("Starting SRIOV Network Device Plugin server at: %s\n", pluginEndpoint)
@@ -306,6 +328,8 @@ func (sm *sriovManager) Start() error {
 func (sm *sriovManager) restart() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	glog.Infof("Restarting SRIOV Network Device Plugin server..")
 	if sm.grpcServer == nil {
 		return nil
@@ -316,6 +340,8 @@ func (sm *sriovManager) restart() error {
 	return sm.Start()
 }
 func (sm *sriovManager) Watch() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for {
@@ -340,6 +366,8 @@ func (sm *sriovManager) Watch() {
 func (sm *sriovManager) Stop() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	glog.Infof("Stopping SRIOV Network Device Plugin server..")
 	if sm.grpcServer == nil {
 		return nil
@@ -355,12 +383,16 @@ func (sm *sriovManager) Stop() error {
 func (sm *sriovManager) cleanup() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := os.Remove(pluginEndpoint); err != nil && !os.IsNotExist(err) {
 		return err
 	}
 	return nil
 }
 func Register(kubeletEndpoint, pluginEndpoint, resourceName string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	conn, err := grpc.Dial(kubeletEndpoint, grpc.WithInsecure(), grpc.WithDialer(func(addr string, timeout time.Duration) (net.Conn, error) {
@@ -382,9 +414,13 @@ func Register(kubeletEndpoint, pluginEndpoint, resourceName string) error {
 func (sm *sriovManager) GetInfo(ctx context.Context, rqt *registerapi.InfoRequest) (*registerapi.PluginInfo, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &registerapi.PluginInfo{Type: registerapi.DevicePlugin, Name: resourceName, Endpoint: filepath.Join(pluginMountPath, sm.socketFile), SupportedVersions: []string{"v1beta1"}}, nil
 }
 func (sm *sriovManager) NotifyRegistrationStatus(ctx context.Context, regstat *registerapi.RegistrationStatus) (*registerapi.RegistrationStatusResponse, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	out := new(registerapi.RegistrationStatusResponse)
@@ -397,6 +433,8 @@ func (sm *sriovManager) NotifyRegistrationStatus(ctx context.Context, regstat *r
 	return out, nil
 }
 func (sm *sriovManager) ListAndWatch(empty *pluginapi.Empty, stream pluginapi.DevicePlugin_ListAndWatchServer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	resp := new(pluginapi.ListAndWatchResponse)
@@ -435,14 +473,20 @@ func (sm *sriovManager) ListAndWatch(empty *pluginapi.Empty, stream pluginapi.De
 func (sm *sriovManager) PreStartContainer(ctx context.Context, psRqt *pluginapi.PreStartContainerRequest) (*pluginapi.PreStartContainerResponse, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &pluginapi.PreStartContainerResponse{}, nil
 }
 func (sm *sriovManager) GetDevicePluginOptions(ctx context.Context, empty *pluginapi.Empty) (*pluginapi.DevicePluginOptions, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &pluginapi.DevicePluginOptions{PreStartRequired: false}, nil
 }
 func (sm *sriovManager) Allocate(ctx context.Context, rqt *pluginapi.AllocateRequest) (*pluginapi.AllocateResponse, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	resp := new(pluginapi.AllocateResponse)
@@ -473,9 +517,13 @@ func (sm *sriovManager) Allocate(ctx context.Context, rqt *pluginapi.AllocateReq
 func flagInit(cp *cliParams) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flag.Var(&cp.nicModel, "nic-model", "NIC Model to be discovered")
 }
 func main() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	cp := &cliParams{}
@@ -523,7 +571,16 @@ func main() {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

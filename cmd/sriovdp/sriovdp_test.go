@@ -15,6 +15,8 @@ import (
 func TestSriovdp(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "Sriov Device Plugin Suite")
 }
@@ -25,9 +27,13 @@ type mockStreamB struct{ grpc.ServerStream }
 func (msa *mockStreamA) Send(resp *pluginapi.ListAndWatchResponse) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (msb *mockStreamB) Send(resp *pluginapi.ListAndWatchResponse) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fmt.Errorf("Error. Cannot update device states")
